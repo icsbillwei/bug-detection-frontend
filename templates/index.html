@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bug Detection Dashboard</title>
+    <style>
+        .detection { margin: 10px; padding: 10px; background-color: #252525; border-radius: 2px;}
+        img { max-width: 500px; padding: 10px; border-radius: 2px;}
+        .timestamp { font-size: 1.4em; color: #929292;}
+        #detections-container { display: flex; flex-wrap: wrap; }
+        body { font-family: Arial, sans-serif; color: white; background-color: #1b1b1b; padding: 20px; text-align: center;}
+    </style>
+</head>
+<body>
+    <h1>Bug Detections</h1>
+    <div id="detections-container"></div>
+
+    <script>
+        async function loadDetections() {
+            try {
+                console.log('Loading detections...');
+                fetch('/api/detections')
+                .then(response => response.json())
+                .then(detections => {
+                    const container = document.getElementById('detections-container');
+                    container.innerHTML = '';
+                    
+                    detections.forEach(d => {
+                        container.innerHTML += `
+                            <div class="detection">
+                                <div class="timestamp">${d.timestamp}</div>
+                                <img src="${d.image_url}" alt="Bug detection">
+                            </div>
+                        `;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+            } catch (error) {
+                console.error('Error loading detections:', error);
+            }
+        }
+        
+        // Refresh every 30 seconds
+        loadDetections();
+        setInterval(loadDetections, 30000);
+
+        function formatTimestamp(timestamp) {
+                // Example: Convert "20230707_142030" to "July 7, 2023 at 14:20:30"
+                const [date, time] = timestamp.split('_');
+                const year = date.slice(0, 4);
+                const month = date.slice(4, 6);
+                const day = date.slice(6, 8);
+                return `${month}/${day}/${year} at ${time.slice(0, 2)}:${time.slice(2, 4)}:${time.slice(4, 6)}`;
+            }
+
+        // Load immediately and every 5 seconds
+        loadDetections();
+        setInterval(loadDetections, 5000);
+    </script>
+</body>
+</html>
