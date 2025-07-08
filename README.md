@@ -9,7 +9,7 @@ As we go deeper into the summer (As of July 2025), bugs are becoming a more comm
 This app utilizes a custom trained model based on YOLOv8 medium to detect occurences of insects through an internet video stream. The dataset used for the training is https://universe.roboflow.com/maximilian-sittinger/insect_detect_detection/dataset/3 . When the backend detects any occurences of an insect, it updates a list of detections. The Flask frontend periodically fetches data and updates it and display the bug occurences on the website. 
 
 ## How To Use
-### Step 1: Set up a live video stream of the bug camera**
+### Step 1: Set up a live video stream of the bug camera
 
 The bug detector app takes in a video stream from an URL, so any method that streams a video feed of the area that you want to detect bugs would work. I used a Raspberry Pi Connected to a GoPro camera, then created a stream using the Motion camera app running on the Pi (https://www.motioncamapp.com/). There should also be a large variety of apps that allows you to use a smartphone camera for this.
 
